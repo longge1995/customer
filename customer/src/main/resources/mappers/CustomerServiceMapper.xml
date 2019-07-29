@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.CustomerServiceMapper">
+
+    <resultMap id="baseMap" type="Item.entity.CustomerService">
+        <result column="id" property="id"/>
+        <result column="type" property="serviceType"/>
+        <result column="sum" property="sum"/>
+    </resultMap>
+
+    <resultMap id="baseMap1" type="Item.entity.CustomerService">
+        <result column="time" property="time"/>
+    </resultMap>
+
+    <select id="search" resultMap="baseMap">
+        SELECT id,type,sum from
+        (select (@i:=@i+1) AS id,s.service_type type,creation_time time,count(id) sum from service_management s,(SELECT @i:=0) as it
+        <where>
+        status='已归档'
+        <if test="time!=null">
+        and YEAR(s.creation_time)=#{time}
+        </if>
+        </where>
+        GROUP BY service_type
+        ORDER BY id asc) t
+    </select>
+    <select id="findyear" resultType="Item.entity.CustomerService">
+        select  DISTINCT year(creation_time) time from service_management s
+        where status='已归档'
+        GROUP BY creation_time
+    </select>
+</mapper>

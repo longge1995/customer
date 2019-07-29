@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--引入属性配置文件-->
+    <context:property-placeholder location="classpath:c3p0.properties" />
+
+    <!--数据源-->
+    <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" id="dataSource">
+        <property name="driverClass" value="${mysql.driver}" />
+        <property name="jdbcUrl" value="${mysql.url}" />
+        <property name="user" value="${mysql.user}" />
+        <property name="password" value="${mysql.pwd}" />
+
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+        <property name="initialPoolSize" value="${c3p0.initPoolSize}" />
+        <property name="minPoolSize" value="${c3p0.minPoolSize}" />
+        <property name="acquireIncrement" value="${c3p0.increment}" />
+        <property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+    </bean>
+
+    <!--sqlSession-->
+    <bean class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--sql映射文件-->
+        <property name="mapperLocations" value="classpath:mappers/*Mapper.xml" />
+        <!--别名设置-->
+        <property name="typeAliasesPackage" value="Item.entity" />
+
+        <!--setting配置-->
+        <property name="configuration">
+            <bean class="com.baomidou.mybatisplus.core.MybatisConfiguration">
+                <!--自动映射-->
+                <property name="autoMappingBehavior" value="FULL" />
+                <!--驼峰命名-->
+                <property name="mapUnderscoreToCamelCase" value="true" />
+                <!--日志打印-->
+                <property name="logImpl" value="org.apache.ibatis.logging.log4j.Log4jImpl" />
+            </bean>
+        </property>
+
+        <!--分页插件-->
+    <property name="plugins">
+        <array>
+            <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor" />
+        </array>
+    </property>
+
+</bean>
+
+<!--mapper扫描-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="Item.mapper" />
+    </bean>
+
+    <!--事务-->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
+   <!-- <tx:annotation-driven transaction-manager="transactionManager" />-->
+
+    <!--service扫描-->
+    <context:component-scan base-package="Item.service.impl" />
+</beans>

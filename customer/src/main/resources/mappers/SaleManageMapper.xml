@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Item.mapper.SaleManageMapper">
+
+    <insert id="addSaleOp" parameterType="Item.entity.SaleManage">
+          INSERT INTO  sales_opportunity(sales_id,opportunity_source,customer_name,success_probability,outline,contacts_id,contacts,contacts_tel,
+          opportunity_decs,found_id,found_name,creation_time,status)
+          VALUES (#{salesId},#{opportunitySource},#{customerName},#{successProbability},#{outline},#{contactsId},#{contacts},#{contactsTel},#{opportunityDecs},#{foundId},#{foundName},#{creationTime},#{status})
+    </insert>
+
+    <update id="editSaleOp" parameterType="Item.entity.SaleManage">
+        UPDATE sales_opportunity SET sales_id = #{salesId},opportunity_source= #{opportunitySource},customer_name= #{customerName},success_probability= #{successProbability},outline= #{outline},contacts_id= #{contactsId},contacts= #{contacts},contacts_tel= #{contactsTel},
+        opportunity_decs= #{opportunityDecs},found_id=#{foundId} ,found_name= #{foundName}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delSaleOp">
+        DELETE FROM sales_opportunity WHERE id = #{id}
+    </delete>
+
+    <update id="saveAssignSaleOp" parameterType="Item.entity.SaleManage">
+        UPDATE sales_opportunity SET status= #{status},assign_id = #{assignId},assign_name= #{assignName},assign_time= #{assignTime}
+        WHERE sales_id = #{salesId}
+    </update>
+
+    <select id="findAllSaleOpMsg" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,opportunity_source,customer_name,success_probability,outline,contacts_id,contacts,contacts_tel,
+        opportunity_decs,found_id,found_name,creation_time,status,assign_name,assign_time
+        FROM sales_opportunity
+    </select>
+
+    <select id="findAllSaleOpList" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,customer_name,outline,contacts,contacts_tel,creation_time,status FROM sales_opportunity
+    </select>
+
+    <select id="findSaleOpById" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,opportunity_source,customer_name,success_probability,outline,contacts_id,contacts,contacts_tel,
+        opportunity_decs,found_id,found_name,creation_time,status,assign_id,assign_name,assign_time,draw_status
+        FROM sales_opportunity WHERE id = #{id}
+    </select>
+
+    <select id="findSaleOpBySalesId" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,opportunity_source,customer_name,success_probability,outline,contacts_id,contacts,contacts_tel,
+        opportunity_decs,found_id,found_name,creation_time,status,assign_id,assign_name,assign_time,draw_status
+        FROM sales_opportunity WHERE sales_id = #{salesId}
+    </select>
+
+    <select id="searchSaleOp" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,customer_name,outline,contacts,contacts_tel,creation_time,status FROM sales_opportunity
+        <where>
+            <if test="customerName!=null">
+                customer_name LIKE '%${customerName}%'
+            </if>
+            <if test="outline!=null">
+                AND  outline LIKE '%${outline}%'
+            </if>
+            <if test="contacts!=null">
+                AND  contacts LIKE '%${contacts}%'
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findAllAssign" resultType="Item.entity.User">
+        SELECT Name FROM user
+    </select>
+
+    <select id="findIdByName" resultType="java.lang.Integer">
+        SELECT id FROM user WHERE Name = #{assignName}
+    </select>
+
+    <select id="findAllAssignSaleOpList" resultType="Item.entity.SaleManage">
+        SELECT id,sales_id,customer_name,outline,contacts,contacts_tel,creation_time,draw_status FROM sales_opportunity WHERE status = "已指派"
+    </select>
+
+    <select id="findDrawPlanListByOpId" resultType="Item.entity.SaleManage">
+        SELECT id,opportunity_id,plan_item,plan_result,draw_time FROM draw_plan WHERE opportunity_id = #{salesId}
+    </select>
+
+    <select id="findDrawPlanById" resultType="Item.entity.SaleManage">
+        SELECT id,opportunity_id,plan_item,plan_result,draw_time FROM draw_plan WHERE id = #{planId}
+    </select>
+
+    <update id="saveDrawPlan" parameterType="Item.entity.SaleManage">
+        UPDATE draw_plan SET plan_item = #{planItem},plan_result = #{planResult}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="addDrawPlan" parameterType="Item.entity.SaleManage">
+        INSERT INTO draw_plan(id,opportunity_id,plan_item,plan_result,draw_time)
+        VALUES (#{id},#{opportunityId},#{planItem},#{planResult},#{drawTime})
+    </insert>
+
+    <delete id="delPlanItem">
+        DELETE FROM draw_plan WHERE id = #{planId}
+    </delete>
+
+    <insert id="addCustomerInfo" parameterType="Item.entity.SaleManage">
+        INSERT INTO customer_info(customer_id,customer_mgr_id,customer_name,customer_mgr,phone,founder)
+        VALUES (#{salesId},#{assignId},#{customerName},#{assignName},#{contactsTel},#{foundName})
+    </insert>
+
+    <insert id="addCustomerContact" parameterType="Item.entity.SaleManage">
+        INSERT INTO customer_contact(customer_id,name,tel)
+        VALUES (#{salesId},#{contacts},#{contactsTel})
+    </insert>
+
+    <update id="editDrawStatus" parameterType="Item.entity.SaleManage">
+        UPDATE sales_opportunity SET draw_status = #{drawStatus}
+        WHERE sales_id = #{salesId}
+    </update>
+
+</mapper>

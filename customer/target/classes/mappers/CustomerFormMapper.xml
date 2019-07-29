@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.CustomerFormMapper">
+
+    <resultMap id="baseMapGrade" type="Item.entity.CustomerForm">
+        <result column="id" property="id" />
+        <result column="grade" property="customerGrade"/>
+        <result column="sum" property="sum" />
+    </resultMap>
+    <resultMap id="baseMapSatisfaction" type="Item.entity.CustomerForm">
+        <result column="id" property="id" />
+        <result column="satisfaction" property="customerSatisfaction"/>
+        <result column="sum" property="sum" />
+    </resultMap>
+    <resultMap id="baseMapCredit" type="Item.entity.CustomerForm">
+        <result column="id" property="id" />
+        <result column="credit" property="customerCredit"/>
+        <result column="sum" property="sum" />
+    </resultMap>
+
+    <select id="findGrade" resultMap="baseMapGrade">
+          select (@i:=@i+1) AS id,customer_grade grade,count(customer_id) sum from customer_info,(SELECT @i:=0) as it
+          where status=1
+          GROUP BY customer_grade
+          ORDER BY id asc
+    </select>
+    <select id="findSatisfaction" resultMap="baseMapSatisfaction">
+          select (@i:=@i+1) AS id,customer_satisfaction satisfaction,count(customer_id) sum from customer_info,(SELECT @i:=0) as it
+          where status=1
+          GROUP BY customer_satisfaction
+          ORDER BY id asc,satisfaction asc;
+    </select>
+    <select id="findCredit" resultMap="baseMapCredit">
+          select (@i:=@i+1) AS id,customer_credit credit,count(customer_id) sum from customer_info,(SELECT @i:=0) as it
+          where status=1
+	      GROUP BY customer_credit
+	      ORDER BY id asc,customer_credit asc;
+    </select>
+
+
+</mapper>

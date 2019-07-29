@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.DataDictionaryMapper">
+    <select id="datadictionaryPage" resultType="Item.entity.DataDictionary">
+        select *  from data_dictionary
+    </select>
+
+
+    <select id="searchData"  resultType="Item.entity.DataDictionary">
+        select *  from data_dictionary
+        <if test="datatype!=null || datadescribe!=null || datavalue!=null">
+            WHERE  data_type like '%${datatype}%'
+            AND data_describe like '%${datadescribe}%' AND data_value like '%${datavalue}%'
+        </if>
+    </select>
+
+    <select id="getData"  parameterType="int" resultType="boolean">
+        <![CDATA[select id  from data_dictionary WHERE id=#{id}]]>
+    </select>
+
+    <delete id="removeById" parameterType="int" >
+        DELETE FROM data_dictionary WHERE  id= #{id}
+    </delete>
+
+    <insert id="addData" parameterType="Item.entity.DataDictionary">
+        insert data_dictionary(id,data_type,data_describe,data_value,editable)
+        VALUES (#{id},#{datatype},#{datadescribe},#{datavalue},#{editable})
+    </insert>
+
+    <update id="editData" parameterType="Item.entity.DataDictionary">
+        UPDATE data_dictionary
+        SET data_type=#{datatype},data_describe=#{datadescribe},data_value=#{datavalue},editable=#{editable}
+        WHERE id=#{id}
+    </update>
+</mapper>

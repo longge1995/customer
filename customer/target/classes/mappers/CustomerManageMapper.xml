@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.CustomerManageMapper">
+
+    <resultMap id="resultMapCustomer" type="Item.entity.CustomerManage">
+        <id property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name" />
+        <result property="city" column="city" />
+        <result property="customerMgr" column="customer_mgr" />
+        <result property="customerGrade" column="customer_grade" />
+        <result property="customerSatisfaction" column="customer_satisfaction" />
+        <result property="customerCredit" column="customer_credit" />
+        <result property="address" column="address" />
+        <result property="phone" column="phone" />
+        <result property="fax" column="fax" />
+        <result property="postalCode" column="postal_code" />
+        <result property="url" column="url" />
+        <result property="businessLicense" column="business_license" />
+        <result property="jurrdicalPerson" column="jurrdical_person" />
+        <result property="registeredCapital" column="registered_capital" />
+        <result property="annualSales" column="annual_sales" />
+        <result property="depositBank" column="deposit_bank" />
+        <result property="bankAccount" column="bank_account" />
+        <result property="landTaxCode" column="land_tax_code" />
+        <result property="centralTax" column="central_tax" />
+    </resultMap>
+
+    <resultMap id="resultMapContact" type="Item.entity.CustomerContact">
+        <id property="id" column="id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="name" column="name" />
+        <result property="sex" column="sex" />
+        <result property="job" column="job" />
+        <result property="phone" column="phone" />
+        <result property="tel" column="tel" />
+        <result property="remark" column="remark" />
+        <result property="founder" column="founder" />
+        <result property="founderId" column="founder_id" />
+        <result property="creationTime" column="creation_time" />
+    </resultMap>
+
+    <resultMap id="resultMapOrder" type="Item.entity.Order">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderTime" column="order_time"/>
+        <result property="deliverGoods" column="deliver_goods"/>
+        <result property="status" column="status"/>
+        <result property="money" column="money"/>
+        <result property="customerId" column="customer_id"/>
+    </resultMap>
+
+    <resultMap id="resultMapOrderDetail" type="Item.entity.OrderDetail">
+        <id property="id" column="id"/>
+        <result property="orderId" column="status"/>
+        <result property="productName" column="product_name"/>
+        <result property="num" column="num"/>
+        <result property="units" column="units"/>
+        <result property="price" column="price"/>
+        <result property="money" column="money"/>
+    </resultMap>
+
+    <resultMap id="resultMapLoss" type="Item.entity.Loss">
+        <id property="id" column="id"/>
+        <result property="customerId" column="customer_id"/>
+        <result property="customerName" column="customer_name"/>
+        <result property="customerMgr" column="customer_mgr"/>
+        <result property="lastOrderTime" column="last_order_time"/>
+        <result property="pauseWay" column="pause_way"/>
+        <result property="addPauseWay" column="add_pause_way"/>
+        <result property="lossTime" column="loss_time"/>
+        <result property="lossReason" column="loss_reason"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+
+    <sql id="selectCustomer">
+        select customer_id,customer_name,city,customer_mgr,customer_grade,customer_satisfaction,customer_credit,
+        address,phone,fax,postal_code,url,
+        business_license,jurrdical_person,registered_capital,annual_sales,deposit_bank,bank_account,
+        land_tax_code,central_tax
+        from customer_info
+    </sql>
+
+
+    <update id="edit">
+        update customer_info set customer_name=#{customerName},city=#{city},customer_mgr=#{customerMgr},
+        customer_grade=#{customerGrade},customer_satisfaction=#{customerSatisfaction},
+        customer_credit=#{customerCredit},address=#{address},phone=#{phone},fax=#{fax},postal_code=#{postalCode},
+        url=#{url},business_license=#{businessLicense},jurrdical_person=#{jurrdicalPerson},
+        registered_capital=#{registeredCapital},annual_sales=#{annualSales},deposit_bank=#{depositBank},
+        bank_account=#{bankAccount},land_tax_code=#{landTaxCode},central_tax=#{centralTax},status=1
+        where customer_id=#{customerId} ;
+    </update>
+    <update id="editcontact">
+        UPDATE customer_contact set name=#{name},sex=#{sex},job=#{job},phone=#{phone},tel=#{tel},
+        remark=#{remark}
+        where id=#{id}
+    </update>
+    <update id="updaterecord">
+        UPDATE record set place=#{place},outline=#{outline},detailed_info=#{detailedInfo},
+        remarks=#{remarks},contact_time=#{contactTime}
+        where id=#{id}
+    </update>
+
+    <update id="updateDeferLoss">
+        UPDATE customer_loss set pause_way=#{pauseWay} where id=#{id}
+    </update>
+
+    <update id="updateSureLoss">
+        UPDATE customer_loss set loss_reason=#{lossReason},loss_time=#{lossTime},status=1 where id=#{id}
+    </update>
+
+
+    <insert id="savecontact">
+        insert into customer_contact(customer_id,name,sex,job,phone,tel,remark)
+        values (#{customerId},#{name},#{sex},#{job},#{phone},#{tel},#{remark})
+    </insert>
+    <insert id="save">
+
+
+    </insert>
+
+    <insert id="saverecord">
+        INSERT INTO record(id,place,outline,detailed_info,remarks,contact_time,customer_id)
+        values(#{id},#{place},#{outline},#{detailedInfo},#{remarks},#{contactTime},#{customerId})
+    </insert>
+    <insert id="saveLoss">
+        INSERT INTO customer_loss(customer_id,customer_mgr,customer_name,last_order_time)
+        value(#{customerId},#{customerMgr},#{customerName},#{lastOrderTime})
+    </insert>
+
+    <delete id="del">
+        DELETE from customer_info where customer_id =#{customerId}
+    </delete>
+    <delete id="delcontact">
+        DELETE from customer_contact where id=#{id}
+    </delete>
+
+    <delete id="delrecord">
+        DELETE from record where id=#{id}
+    </delete>
+
+    <select id="findById" resultMap="resultMapCustomer">
+        <include refid="selectCustomer" />
+        where customer_id = #{customerId}
+    </select>
+
+    <select id="findAll" resultMap="resultMapCustomer">
+        <include refid="selectCustomer" />
+    </select>
+
+    <select id="findContactById" resultMap="resultMapContact">
+        SELECT id,customer_id,name,sex,job,phone,tel,remark,founder,founder_id,creation_time
+        from customer_contact
+        where customer_id =#{customerId}
+    </select>
+
+    <select id="findContactByContactId" resultMap="resultMapContact">
+        SELECT id,customer_id,name,sex,job,phone,tel,remark,founder,founder_id,creation_time
+        from customer_contact
+        where id =#{id}
+    </select>
+
+    <select id="search" resultMap="resultMapCustomer">
+        <include refid="selectCustomer"/>
+        WHERE customer_id like '%${value}%' OR customer_name like '%${value}%' OR city like '%${value}%'
+    </select>
+
+    <select id="findRecordByCustomerId" resultType="Item.entity.Record">
+        SELECT id,place,outline,detailed_info,remarks,contact_time,customer_id
+        from record
+        where customer_id=#{cstomeruId}
+    </select>
+
+    <select id="findRecordByRecordId" resultType="Item.entity.Record">
+        select id,place,outline,detailed_info,remarks,contact_time,customer_id
+        from record
+        where id=#{id}
+    </select>
+
+    <select id="findAllHistoryByCustomerId" resultMap="resultMapOrder">
+        select id,order_id,order_time,deliver_goods,status,customer_id,money
+        from order_history
+        where customer_id=#{customerId}
+    </select>
+
+    <select id="findHistoryByOrderId" resultMap="resultMapOrder">
+        select id,order_id,order_time,deliver_goods,status,customer_id,money
+        from order_history
+        where order_id=#{orderId}
+    </select>
+    <select id="findDetailByOrderId" resultMap="resultMapOrderDetail">
+        SELECT id,order_id,product_name,num,units,price,money
+        from order_info
+        where order_id=#{orderId}
+    </select>
+
+    <select id="findAllLoss" resultMap="resultMapLoss">
+        SELECT id,customer_id,customer_mgr,customer_name,last_order_time,pause_way,add_pause_way,loss_time,status
+        from customer_loss
+    </select>
+
+    <select id="findLastOrderTime" resultType="Item.entity.Loss">
+        select id,o.customer_id,customer_name,customer_mgr,max(order_time) lastOrderTime,min(DATEDIFF(CURDATE(),order_time)) timenum
+        from order_history o,customer_info c
+        where c.customer_id = o.customer_id
+        GROUP BY c.customer_id
+    </select>
+
+    <select id="findLossByLossId" resultType="Item.entity.Loss">
+        select id,customer_id,customer_mgr,customer_name,last_order_time,pause_way,add_pause_way,loss_reason,loss_time,status
+        from customer_loss
+        where id=#{id}
+    </select>
+
+    <select id="searchLoss" resultMap="resultMapLoss">
+        select id,customer_id,customer_mgr,customer_name,last_order_time,pause_way,add_pause_way,loss_reason,loss_time,status
+        from customer_loss
+        <where>
+
+            <if test="customerName != null">
+                customer_name like '%${customerName}%'
+            </if>
+            <if test="customerMgr != null">
+                or customer_mgr like '%${customerMgr}%'
+            </if>
+            <if test="status != null">
+                or status =#{status}
+            </if>
+
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+<link rel="stylesheet" href="../../lib/layui/css/layui.css">
+<script src="../../static/js/jquery-3.3.1.js"></script>
+<script src="../../lib/layui/layui.js"></script>
+<script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+/*------------------------样式重置----------------------*/
+body,h1,h2,h3,h4,h5,h6,p,dl,dd,ul,ol,form,input,textarea,th,td,select{margin: 0;padding: 0;}
+em{font-style: normal;}
+li{list-style: none;}
+a{text-decoration: none;color: white;}
+a:hover{color: white;}
+img{border: none;vertical-align: top;}
+table{border-collapse: collapse;}
+input,textarea{outline:none;}
+textarea{resize: none;overflow: auto;}
+body{font-size: 12px;font-family: '微软雅黑';}
+	
+
+/*-----------------样式重置-----------------------------*/
+	
+	
+	
+	
+	
+.clear{zoom:1;}    /*<!--ie清浮动-->*/
+.clear:after{content:'';display: block;clear: both;}  /*<!--标准浏览器清浮动 -->*/ 
+	
+	
+	
+	
+	
+	.wrap{position: relative !important;top: 10px;}
+	.nav_ul{float: right;}
+	
+	#blockquote1{height: 35px;}
+	#blockquote1 h2{float: left;}
+	input{padding-left: 10px; border-radius: 5px;padding-right: 15px;border: 3px solid #eeeeee;}
+	input:focus{border: 3px solid #01AAED;}
+	input[type=text]{ width: 200px;height: 20px;border: none;}
+	.input_div{display: inline-block;}
+	.input_div span{display:inline-block;font-size: 15px;font-weight: bold;padding: 5px 15px 5px 15px;}
+	table{width: 1000px !important;margin:10px auto !important;border-radius: 10px !important;}
+	
+	
+	select{width: 231px;height: 26px;border: 3px solid #eeeeee;color: #7e7e7e;border-radius: 5px;}
+	
+	textarea{padding:10px 0 10px 10px;width: 675px;border: 3px solid #eeeeee;color: #7e7e7e;border-radius: 5px;height: 46px;}
+	textarea:focus{border: 3px solid #01AAED;}
+	#input1{width: 660px;}
+	
+	
+	tr{height: 11px;}
+	
+</style>
+
+<body>
+<div class="wrap layui-anim layui-anim-scaleSpring">
+
+<div class="sales_input layui-fluid">
+	<blockquote id="blockquote1" class="layui-elem-quote layui-quote-nm layui-bg-gray clear">
+   	<h2>客户信息管理</h2>
+    <ul class="nav_ul">
+		<li class="layui-btn layui-btn-normal" onclick="WeAdminShow('帮助','./help.html',600,400)">帮助</li>
+		<a href="customer_contact.html"><li class="layui-btn layui-btn-normal">联系人</li></a>
+		<a href="customer_record.html"><li class="layui-btn layui-btn-normal">交往记录</li></a>
+		<a href="customer_history.html"><li class="layui-btn layui-btn-normal">历史订单</li></a>
+		<li class="layui-btn layui-btn-normal">返回</li>
+		<li class="layui-btn layui-btn-normal">保存</li>
+		
+	</ul>
+    </blockquote>
+   <blockquote class="layui-elem-quote layui-quote-nm">
+   	
+    
+    <table id="test1" class="layui-table"   lay-skin="line">
+  
+	  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+    <tr>
+      <th class="layui-bg-gray">客户编号</th>
+      <td><input type="text" name="" placeholder="请输入客户编号" ></td>
+      <th class="layui-bg-gray">名称</th>
+      <td><input type="text" name="" placeholder="请输入名称" ></td>
+    </tr> 
+    <tr>
+   	  <th class="layui-bg-gray">地区</th>
+      <td>
+      	<form class="layui-form layui-col-md12 we-search">
+				<div class="layui-inline">
+					<select name="" id="">
+							<option value="">全部</option>
+							<option value="">gg</option>
+							<option value=""></option>
+						</select>
+				</div>
+			</form>
+      </td>
+      <th class="layui-bg-gray">客户经理</th>
+      <td>
+      	<form class="layui-form layui-col-md12 we-search">
+				<div class="layui-inline">
+					<select name="" id="">
+							<option value="">全部</option>
+							<option value="">gg</option>
+							<option value=""></option>
+						</select>
+				</div>
+			</form>
+      </td>
+    </tr>
+    <tr>
+      <th class="layui-bg-gray">客户等级</th>
+      <td colspan="3">
+      	<form class="layui-form layui-col-md12 we-search">
+				<div class="layui-inline">
+					<select name="" id="">
+							<option value="">全部</option>
+							<option value="">gg</option>
+							<option value=""></option>
+						</select>
+				</div>
+			</form>
+      </td>
+    </tr>
+    <tr>
+      <th class="layui-bg-gray">客户满意度</th>
+      <td>
+      	<form class="layui-form layui-col-md12 we-search">
+				<div class="layui-inline">
+					<select name="" id="">
+							<option value="">全部</option>
+							<option value="">gg</option>
+							<option value=""></option>
+						</select>
+				</div>
+			</form>
+      </td>
+      <th class="layui-bg-gray">客户信用度</th>
+      <td>
+      		<form class="layui-form layui-col-md12 we-search">
+				<div class="layui-inline">
+					<select name="" id="">
+							<option value="">全部</option>
+							<option value="">gg</option>
+							<option value=""></option>
+						</select>
+				</div>
+			</form>
+      </td>	
+    </tr>
+</table>
+    
+    <table id="test2" class="layui-table" lay-size="sm"  lay-skin="line">
+  
+	  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+    <tr>
+      <th class="layui-bg-gray">地址</th>
+      <td><input type="text" name="" placeholder="请输入地址" ></td>
+      <th class="layui-bg-gray">邮政编码&nbsp;</th>
+      <td><input type="text" name="" placeholder="请输入邮政编码" ></td>
+    </tr> 
+    <tr>
+   	  <th class="layui-bg-gray">电话</th>
+      <td><input type="text" name="" placeholder="请输入电话" ></td>
+      <th class="layui-bg-gray">传真</th>
+      <td><input type="text" name="" placeholder="请输入传真" ></td>
+    </tr>
+    <tr>
+      <th class="layui-bg-gray">网址</th>
+      <td colspan="3"><input type="text" name="" placeholder="请输入网址" ></td>
+    </tr>
+</table>
+
+
+ <table id="test3" class="layui-table" lay-size="sm"  lay-skin="line">
+  
+	  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+    <tr>
+      <th class="layui-bg-gray">营业执照注册号</th>
+      <td><input type="text" name="" placeholder="请输入营业执照注册号" ></td>
+      <th class="layui-bg-gray">法人</th>
+      <td><input type="text" name="" placeholder="请输入法人" ></td>
+    </tr> 
+    <tr>
+   	  <th class="layui-bg-gray">注册资金（万元）</th>
+      <td><input type="text" name="" placeholder="请输入注册资金" ></td>
+      <th class="layui-bg-gray">年营业额</th>
+      <td><input type="text" name="" placeholder="请输入年营业额" ></td>
+    </tr>
+    <tr>
+      <th class="layui-bg-gray">开户银行</th>
+      <td><input type="text" name="" placeholder="请输入开户银行" ></td>
+      <th class="layui-bg-gray">银行账号</th>
+      <td><input type="text" name="" placeholder="请输入银行账号" ></td>
+    </tr>
+    <tr>
+      <th class="layui-bg-gray">地税登记号</th>
+      <td><input type="text" name="" placeholder="请输入地税登记号" ></td>
+      <th class="layui-bg-gray">国税登记号</th>
+      <td><input type="text" name="" placeholder="请输入国税登记号" ></td>
+    </tr>
+</table>
+    
+    
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    
+    </blockquote>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+</div>
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+
+</body>
+
+<script>
+	
+	
+		
+	
+	
+	
+	
+	
+
+	</script>
+</html>

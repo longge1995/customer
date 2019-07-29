@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.CustomerLossMapper">
+
+    <resultMap id="baseMap" type="Item.entity.Loss">
+        <result column="id" property="id"/>
+        <result column="year" property="year"/>
+        <result column="customerName" property="customerName"/>
+        <result column="customer_mgr" property="customerMgr"/>
+        <result column="lossReason" property="lossReason"/>
+    </resultMap>
+
+    <select id="search" resultMap="baseMap">
+        select id,YEAR(loss_time) year,customer_name customerName,customer_mgr,loss_reason lossReason
+        from customer_loss
+        <where>
+            status='1'
+            <if test="customerName!=null">
+               AND customer_name like '%${customerName}%'
+            </if>
+            <if test="customerMgr!=null">
+                and customer_mgr like '%${customerMgr}%'
+            </if>
+        </where>
+    </select>
+</mapper>

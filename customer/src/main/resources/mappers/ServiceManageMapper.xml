@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.ServiceManageMapper">
+    <insert id="save"   parameterType="Item.entity.ServiceManage">
+        INSERT INTO service_management  (service_no,service_type,outLine,customer_name,customer_id,status,service_req,creation_name,creation_time)
+        VALUES (#{serviceNo},#{serviceType},#{outLine},#{customerName},#{customerId},#{status},#{serviceReq},#{creationName},#{creationTime})
+    </insert>
+
+    <update id="saveProcess" parameterType="Item.entity.ServiceManage">
+        UPDATE service_management SET status = #{status}, process_content = #{processContent} , process_name = #{processName} , process_time = #{processTime},process_result = #{processResult},
+        process_satisfaction = #{processSatisfaction}
+        where id = #{id}
+    </update>
+    <update id="saveAssign">
+        UPDATE service_management SET status=#{status},allocator = #{allocator},assign_time = #{assignTime} where id = #{id}
+    </update>
+    <insert id="addServiceHistory" parameterType="Item.entity.ServiceManage">
+        INSERT INTO serviceprocess_history (service_id,process_content,process_result,process_time) VALUES  (#{id},#{processContent},#{processResult},#{processTime})
+
+    </insert>
+    <delete id="del" parameterType="integer">
+        DELETE FROM service_management where id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="Item.entity.ServiceManage">
+        SELECT id,service_no,service_type,outLine,customer_name,status,service_req,creation_name,creation_time,allocator,assign_time,process_name,process_content,
+        process_result,process_time,process_satisfaction
+        from  service_management
+    </select>
+    <select id="search" parameterType="Item.entity.ServiceManage" resultType="Item.entity.ServiceManage">
+        SELECT id,service_no,service_type,outLine,customer_name,status,service_req,creation_name,creation_time,allocator,assign_time,process_name,process_content,
+        process_result,process_time,process_satisfaction
+        FROM service_management
+        <where>
+            <if test="customerName!=null ">
+                customer_name LIKE '%${customerName}%'
+            </if>
+            <if test="outLine!=null " >
+                and outline LIKE  '%${outLine}%'
+            </if>
+            <if test="serviceType!=null ">
+                and service_type LIKE  '%${serviceType}%'
+            </if>
+            <if test="status!=null ">
+                and status LIKE  '%${status}%'
+            </if>
+
+            <if test="creationTime!=null  ">
+                and creation_time &gt; '${creationTime}'
+            </if>
+            <if test="creationTime2!=null ">
+                and creation_time  &lt; '${creationTime2}'
+            </if>
+        </where>
+    </select>
+    <select id="findById" resultType="Item.entity.ServiceManage">
+        SELECT id,service_no,service_type,outLine,customer_name,status,service_req,creation_name,creation_time,allocator,assign_time,process_name,process_content,
+        process_result,process_time,process_satisfaction
+        from service_management where id = #{id}
+    </select>
+    <select id="findAllUser" resultType="Item.entity.User">
+        SELECT id,name,job,phone,email from user
+    </select>
+    <select id="findAllCutomer" resultType="Item.entity.CustomerManage">
+        SELECT customer_name from customer_info
+    </select>
+
+    <select id="findServiceHistory" resultType="Item.entity.ServiceHistory">
+        SELECT * from serviceprocess_history  where service_id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+</head>
+<link rel="stylesheet" href="../../lib/layui/css/layui.css">
+<script src="../../static/js/jquery-3.3.1.js"></script>
+<script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/layui/layui.all.js"></script>
+
+<style>
+/*------------------------样式重置----------------------*/
+body,h1,h2,h3,h4,h5,h6,p,dl,dd,ul,ol,form,input,textarea,th,td,select{margin: 0;padding: 0;}
+em{font-style: normal;}
+li{list-style: none;}
+a{text-decoration: none;color: white;}
+a:hover{color: white;}
+img{border: none;vertical-align: top;}
+table{border-collapse: collapse;}
+input,textarea{outline:none;}
+textarea{resize: none;overflow: auto;}
+body{font-size: 12px;font-family: '微软雅黑';}
+	
+
+/*-----------------样式重置-----------------------------*/
+	
+	
+	.wrap{position: relative !important;top: 10px;}
+	.nav_ul{position: absolute !important;right: 30px;top: 20px;}
+	
+	
+	
+	input{padding-left: 10px; border-radius: 5px;padding-right: 15px;border: 3px solid #eeeeee;}
+	/*input:hover{border: 3px solid #01AAED;}*/
+	input:focus{border: 3px solid #01AAED;}
+	input[type=text]{ width: 200px;height: 40px;}
+	.input_div{display: inline-block;}
+	.input_div span{display:inline-block;font-size: 15px;font-weight: bold;padding: 5px 15px 5px 15px;}
+	table{width: 1275px !important;margin:10px auto !important;border-radius: 10px !important;}
+	
+	#nav_ul{height: 40px !important;}
+</style>
+
+<body>
+<div class="wrap layui-anim layui-anim-scaleSpring">
+
+<div class="sales_input layui-fluid">
+   <blockquote class="layui-elem-quote layui-quote-nm layui-bg-gray">
+   	<div class="input_div">
+    	<span>客户名称</span>
+    	<input type="text" name="" placeholder="请输入客户名称" >
+    </div>
+    <div class="input_div">
+    	<span>概要</span>
+    	<input type="text" name="" placeholder="请输入概要" >
+    </div>
+    <div class="input_div">
+    	<span>联系人</span>
+    	<input type="text" name="" placeholder="请输入联系人" >
+    </div>
+    <ul class="nav_ul">
+		<li class="layui-btn layui-btn-normal">帮助</li>
+		<li class="layui-btn layui-btn-normal"  onclick="add()">新建</li>
+		<li class="layui-btn layui-btn-normal">查询</li>
+	</ul>
+    </blockquote>
+    
+</div>
+
+<div class="sales_form">
+  <table id="test1" class="layui-table" lay-size="lg" lay-even lay-skin="nob">
+  
+	  <colgroup>
+    <col width="150">
+    <col width="200">
+    <col>
+  </colgroup>
+  <thead>
+    <tr class="layui-bg-blue">
+      <th>编号</th>
+      <th>客户名称</th>
+      <th>概要</th>
+      <th>联系人</th>
+      <th>联系人电话</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+    <tr>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>2016-11-29</td>
+      <td>
+      	<button class="layui-btn layui-btn-sm layui-btn-primary" onclick="edit()">
+  <i class="layui-icon">&#xe642;</i>
+		</button>
+		<button class="layui-btn layui-btn-sm layui-btn-primary">
+  <i class="layui-icon">&#xe640;</i>
+		</button>
+      </td>
+    </tr>
+    <tr>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>2016-11-29</td>
+      <td>
+      	<button class="layui-btn layui-btn-sm layui-btn-primary" onclick="edit()">
+  			<i class="layui-icon">&#xe642;</i>
+		</button>
+		<button class="layui-btn layui-btn-sm layui-btn-primary">
+  			<i class="layui-icon">&#xe640;</i>
+      </td>
+    </tr>
+    <tr>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>2016-11-29</td>
+      <td>
+      	<button class="layui-btn layui-btn-sm layui-btn-primary" onclick="edit()">
+  			<i class="layui-icon">&#xe642;</i>
+		</button>
+		<button class="layui-btn layui-btn-sm layui-btn-primary">
+  			<i class="layui-icon">&#xe640;</i>
+      </td>
+    </tr>
+    <tr>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>贤心</td>
+      <td>2016-11-29</td>
+      <td>
+      	<button class="layui-btn layui-btn-sm layui-btn-primary" onclick="edit()">
+  			<i class="layui-icon">&#xe642;</i>
+		</button>
+		<button class="layui-btn layui-btn-sm layui-btn-primary">
+  			<i class="layui-icon">&#xe640;</i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</body>
+<script>
+	
+	
+	function add() {
+	var editPage=layer.open({
+		type : 2,
+		title : '新建销售机会',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '1200px', '520px' ],
+		content : 'sales_add.html' ,// iframe的url
+		anim: 3
+	});
+	}
+	
+	function edit() {
+	var editPage=layer.open({
+		type : 2,
+		title : '编辑销售机会',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '1200px', '520px' ],
+		content : 'sales_edit.html', // iframe的url
+		anim: 3
+	});
+	}
+	
+	
+	
+	
+	
+
+	</script>
+</html>

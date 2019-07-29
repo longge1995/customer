@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Item.mapper.CustomerContributionMapper">
+
+    <resultMap id="baseMap" type="Item.entity.CustomerContribution">
+        <result column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="time" property="time"/>
+        <result column="sum" property="money"/>
+    </resultMap>
+
+
+    <select id="search" resultMap="baseMap">
+        select id,name,time,sum from (select c.customer_id id,c.customer_name name,h.order_time time ,sum(o.money) sum
+        from customer_info c JOIN order_history h ON c.customer_id=h.customer_id
+        join order_info o on h.order_id=o.order_id
+        <where>
+            <if test="time!=null">
+                YEAR(h.order_time)=#{time}
+            </if>
+            <if test="name!=null">
+                and c.customer_name like '%${name}%'
+            </if>
+        </where>
+        GROUP BY customer_name) t
+
+    </select>
+
+    <select id="findAll" resultMap="baseMap">
+        select id,name,time,sum from (select c.customer_id id,c.customer_name name,h.order_time time ,sum(o.money) sum
+        from customer_info c JOIN order_history h ON c.customer_id=h.customer_id
+        join order_info o on h.order_id=o.order_id GROUP BY customer_name) t ORDER by id asc
+    </select>
+    <select id="findyear" resultType="Item.entity.CustomerContribution">
+        select  DISTINCT year(order_time) time from order_history
+        where status='1'
+        GROUP BY order_time
+    </select>
+</mapper>
